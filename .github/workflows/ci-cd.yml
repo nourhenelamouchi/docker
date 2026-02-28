@@ -3,37 +3,37 @@ name: CI-CD Pipeline
 on:
   push:
     branches:
-      - [cite_start]main # Déclencheur sur la branche main 
+      - main
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        [cite_start]uses: actions/checkout@v4 # Récupération du code [cite: 37]
+        uses: actions/checkout@v4
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          [cite_start]username: ${{ secrets.DOCKERHUB_USERNAME }} # Connexion via secrets [cite: 44]
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build & Push Backend
         uses: docker/build-push-action@v5
         with:
-          [cite_start]context: ./springboot/app # Construction image backend [cite: 45]
+          context: ./springboot/app
           push: true
-          [cite_start]tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-app:latest # Push vers Docker Hub [cite: 47]
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-app:latest
 
       - name: Build & Push Frontend
         uses: docker/build-push-action@v5
         with:
-          [cite_start]context: ./angular-app # Construction image frontend [cite: 46]
+          context: ./angular-app
           push: true
-          [cite_start]tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-app:latest # Push vers Docker Hub [cite: 47]
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-app:latest
 
       - name: Test Application
         run: |
-          docker-compose up -d # Lancement avec Docker Compose [cite: 50]
+          docker-compose up -d
           sleep 30
-          docker ps # Vérifier que les conteneurs démarrent [cite: 52]																																												
+          docker ps
