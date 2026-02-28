@@ -2,36 +2,37 @@ name: CI-CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    [cite_start]branches: [ "main" ] # Déclencheur sur la branche main [cite: 36]
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # Récupération du code (Étape 1)
+        [cite_start]uses: actions/checkout@v4 # Récupération du code [cite: 37]
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }} # Connexion via secrets (Étape 2)
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          [cite_start]username: ${{ secrets.DOCKERHUB_USERNAME }} # [cite: 41, 44]
+          [cite_start]password: ${{ secrets.DOCKERHUB_TOKEN }}    # [cite: 42, 44]
 
       - name: Build & Push Backend
         uses: docker/build-push-action@v5
         with:
-          context: ./springboot/app # Chemin vers Dockerfile backend (Étape 2)
+          [cite_start]context: ./springboot/app # [cite: 12, 45]
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-app:latest
+          [cite_start]tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-app:latest # [cite: 47]
 
       - name: Build & Push Frontend
         uses: docker/build-push-action@v5
         with:
-          context: ./angular-app # Chemin vers Dockerfile frontend (Étape 2)
+          [cite_start]context: ./angular-app # [cite: 14, 46]
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-app:latest
+          [cite_start]tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-app:latest # [cite: 47]
 
       - name: Test Application
         run: |
-          docker-compose up -d # Lancement avec Docker Compose (Étape 3)
+          docker-compose up -d # Lancement test [cite: 50]
           sleep 30
-          docker ps
+          docker ps # Vérification démarrage [cite: 52]
