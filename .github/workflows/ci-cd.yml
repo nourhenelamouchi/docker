@@ -13,8 +13,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Étape indispensable pour le Backend : Compilation Java
-      # Cette étape génère le fichier .jar nécessaire au Dockerfile
+      # INSTALLATION DE JAVA ET MAVEN (Indispensable pour éviter l'erreur 127)
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -22,7 +21,8 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Build Backend JAR with Maven
+      # COMPILATION DU BACKEND (Génère le JAR pour le Dockerfile) [cite: 7]
+      - name: Build Backend JAR
         run: mvn -f springboot/app/pom.xml clean package -DskipTests
 
       # Étape 2 : Connexion à Docker Hub [cite: 44]
@@ -32,7 +32,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Étape 2 : Build et Push des images [cite: 45, 46, 47]
+      # BUILD ET PUSH DES IMAGES [cite: 45, 46, 47]
       - name: Build & Push Backend
         uses: docker/build-push-action@v5
         with:
