@@ -47,9 +47,9 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-app:latest
 
-      # 6. Test final
+      # Étape 6 : Test final
       - name: Test Application
         run: |
-          docker-compose up -d
+          docker compose up -d
           sleep 30
           docker ps
