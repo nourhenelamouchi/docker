@@ -11,7 +11,7 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3307/demo
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_DATASOURCE_PASSWORD=
       - spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -29,7 +29,7 @@ services:
       MYSQL_ROOT_USERNAME: 'root'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
-      - '0.0.0.0:3307:3307'
+      - '0.0.0.0:3306:3306'
     volumes:
       - demo:/var/lib/mysql
 volumes:
